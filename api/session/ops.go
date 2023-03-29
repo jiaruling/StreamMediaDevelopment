@@ -1,6 +1,13 @@
 package session
 
-import "sync"
+import (
+	"sync"
+	"time"
+
+	"github.com/jiaruling/StreamMediaDevelopment/api/dbops"
+	"github.com/jiaruling/StreamMediaDevelopment/api/defs"
+	uuid "github.com/satori/go.uuid"
+)
 
 type SimpleSession struct {
 	Username string `json:"username"`
@@ -14,13 +21,41 @@ func init() {
 }
 
 func LoadSessionFromDB() {
-
+	r, err := dbops.ListSession()
+	if err != nil {
+		return
+	}
+	r.Range(func(k, v interface{}) bool {
+		ss := v.(*defs.SimpleSession)
+		sessionMap.Store(k, ss)
+		return true
+	})
 }
 
 func GenerateNewSessionId(un string) string {
-	return ""
+	id := uuid.NewV4().String()
+	ct := time.Now().Unix()
+	ttl := ct + 30*60 // Serverside session valid time: 30min
+	ss := &defs.SimpleSession{Username: un, TTL: ttl}
+	sessionMap.Store(id, ss)
+	dbops.AddNewSession(id, ttl, un)
+	return id
 }
 
 func IsSessionExpired(sid string) (string, bool) {
-	return "", false
+	ss, ok := sessionMap.Load(sid)
+	if ok {
+		ct := time.Now().Unix()
+		if ss.(*defs.SimpleSession).TTL < ct {
+			deleteExpiredSession(sid)
+			return "", true
+		}
+		return ss.(*defs.SimpleSession).Username, false
+	}
+	return "", true
+}
+
+func deleteExpiredSession(sid string) {
+	sessionMap.Delete(sid)
+	dbops.DeleteSession(sid)
 }
