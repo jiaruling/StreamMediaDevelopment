@@ -7,7 +7,22 @@ import (
 	"github.com/julienschmidt/httprouter"
 
 	"github.com/jiaruling/StreamMediaDevelopment/api/handlers"
+	"github.com/jiaruling/StreamMediaDevelopment/api/middleware"
+	"github.com/jiaruling/StreamMediaDevelopment/api/session"
 )
+
+type middlewareHandler struct {
+	r *httprouter.Router
+}
+
+func NewMiddlewareHandler(r *httprouter.Router) http.Handler {
+	return middlewareHandler{r: r}
+}
+
+func (m middlewareHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	middleware.ValidateUserSession(r)
+	m.r.ServeHTTP(w, r)
+}
 
 func RegisterHandlers() *httprouter.Router {
 	router := httprouter.New()
@@ -23,6 +38,8 @@ func RegisterHandlers() *httprouter.Router {
 }
 
 func main() {
+	session.LoadSessionFromDB()
 	router := RegisterHandlers()
-	log.Fatal(http.ListenAndServe(":8000", router))
+	mh := NewMiddlewareHandler(router)
+	log.Fatal(http.ListenAndServe(":8000", mh))
 }
