@@ -33,3 +33,9 @@ create table sessions
     TTL TINYTEXT comment '过期时间',
     username varchar(64)  comment '登录用户'
 ) comment 'sessions表' charset = utf8mb4;
+
+drop table if exists `video_delete`;
+create table video_delete
+(
+    id  varchar(64) not null comment '主键id' primary key
+) comment '资源删除表' charset = utf8mb4;
