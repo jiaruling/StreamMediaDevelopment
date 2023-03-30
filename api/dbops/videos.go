@@ -56,3 +56,36 @@ func GetVideos(vid string) (*defs.VideoInfo, error) {
 	res := &defs.VideoInfo{Id: vid, UserId: userId, Name: name, DisplayTime: displayTime}
 	return res, nil
 }
+
+func ListVideoInfo(uname string, from, to int) ([]*defs.VideoInfo, error) {
+	stmtOut, err := dbConn.Prepare(`SELECT video.id, video.author_id, video.name, video.display_ctime FROM video 
+		INNER JOIN users ON video.author_id = users.id
+		WHERE users.login_name = ? AND video.create_time > FROM_UNIXTIME(?) AND video.create_time <= FROM_UNIXTIME(?) 
+		ORDER BY video.create_time DESC`)
+
+	var res []*defs.VideoInfo
+
+	if err != nil {
+		return res, err
+	}
+	defer stmtOut.Close()
+
+	rows, err := stmtOut.Query(uname, from, to)
+	if err != nil {
+		log.Printf("%s", err)
+		return res, err
+	}
+
+	for rows.Next() {
+		var id, name, ctime string
+		var aid int
+		if err := rows.Scan(&id, &aid, &name, &ctime); err != nil {
+			return res, err
+		}
+
+		vi := &defs.VideoInfo{Id: id, UserId: aid, Name: name, DisplayTime: ctime}
+		res = append(res, vi)
+	}
+
+	return res, nil
+}

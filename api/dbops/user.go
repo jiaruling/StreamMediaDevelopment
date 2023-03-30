@@ -3,6 +3,8 @@ package dbops
 import (
 	"database/sql"
 	"log"
+
+	"github.com/jiaruling/StreamMediaDevelopment/api/defs"
 )
 
 func AddUserCredential(loginName string, pwd string) error {
@@ -46,4 +48,30 @@ func DeleteUser(loginName string, pwd string) error {
 		return err
 	}
 	return nil
+}
+
+func GetUser(loginName string) (*defs.User, error) {
+	stmtOut, err := dbConn.Prepare("SELECT id, pwd FROM user WHERE username = ?")
+	if err != nil {
+		log.Printf("%s", err)
+		return nil, err
+	}
+
+	var id int
+	var pwd string
+
+	err = stmtOut.QueryRow(loginName).Scan(&id, &pwd)
+	if err != nil && err != sql.ErrNoRows {
+		return nil, err
+	}
+
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+
+	res := &defs.User{Id: id, LoginName: loginName, Pwd: pwd}
+
+	defer stmtOut.Close()
+
+	return res, nil
 }
