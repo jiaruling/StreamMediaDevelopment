@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	DEFAULT_COOKIE_EXPIRE_TIME = 30;
+	DEFAULT_COOKIE_EXPIRE_TIME = 30; // cookie 过期时间
 
 	uname = '';
 	session = '';

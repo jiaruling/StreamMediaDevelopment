@@ -25,7 +25,8 @@ func AddNewComments(vid string, aid int, content string) error {
 func ListComments(vid string, from, to int) ([]*defs.Comment, error) {
 	stmtOut, err := dbConn.Prepare(`SELECT comments.id, user.username, comments.content FROM comments
 									 INNER JOIN user ON comments.user_id = user.id
-									 WHERE comments.video_id= ? AND comments.time > FROM_UNIXTIME(?) AND comments.time <= FROM_UNIXTIME(?)`)
+									 WHERE comments.video_id= ? AND comments.time > FROM_UNIXTIME(?) AND comments.time <= FROM_UNIXTIME(?)
+									 ORDER BY comments.time DESC`)
 	if err != nil {
 		log.Printf("ListComments %s", err.Error())
 		return nil, err

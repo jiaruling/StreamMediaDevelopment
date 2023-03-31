@@ -25,13 +25,14 @@ type UserPage struct {
 	Name string
 }
 
+// done: 完成
 func HomeHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	cname, err1 := r.Cookie("username")
 	sid, err2 := r.Cookie("session")
 
 	if err1 != nil || err2 != nil {
-		p := &HomePage{Name: "avenssi"}
-		t, e := template.ParseFiles("./templates/home.html")
+		p := &HomePage{Name: "lihaoya"}
+		t, e := template.ParseFiles("./template/home.html")
 		if e != nil {
 			log.Printf("Parsing template home.html error: %s", e)
 			return
@@ -47,6 +48,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 }
 
+// done: 完成
 func UserHomeHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	cname, err1 := r.Cookie("username")
 	_, err2 := r.Cookie("session")
@@ -65,7 +67,7 @@ func UserHomeHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Param
 		p = &UserPage{Name: fname}
 	}
 
-	t, e := template.ParseFiles("./templates/userhome.html")
+	t, e := template.ParseFiles("./template/userhome.html")
 	if e != nil {
 		log.Printf("Parsing userhome.html error: %s", e)
 		return
@@ -74,6 +76,7 @@ func UserHomeHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Param
 	t.Execute(w, p)
 }
 
+// done: api透传
 func ApiHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	if r.Method != http.MethodPost {
 		re, _ := json.Marshal(defs.ErrorRequestNotRecognized)
@@ -93,12 +96,14 @@ func ApiHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	defer r.Body.Close()
 }
 
+// done: proxy转发
 func ProxyVideoHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	u, _ := url.Parse("http://" + config.GetLbAddr() + ":9000/")
 	proxy := httputil.NewSingleHostReverseProxy(u)
 	proxy.ServeHTTP(w, r)
 }
 
+// done: proxy转发
 func ProxyUploadHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	u, _ := url.Parse("http://" + config.GetLbAddr() + ":9000/")
 	proxy := httputil.NewSingleHostReverseProxy(u)
