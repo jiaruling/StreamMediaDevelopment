@@ -1,3 +1,4 @@
+// note: 初始化
 $(document).ready(function() {
 
 	DEFAULT_COOKIE_EXPIRE_TIME = 30; // cookie 过期时间
@@ -179,6 +180,7 @@ $(document).ready(function() {
     });
 });
 
+// note: 初始化页面
 function initPage(callback) {
 	getUserId(function(res, err) {
 		if (err != null) {
@@ -206,6 +208,7 @@ function initPage(callback) {
 	});
 }
 
+// note: session
 function setCookie(cname, cvalue, exmin) {
     var d = new Date();
     d.setTime(d.getTime() + (exmin * 60 * 1000));
@@ -228,7 +231,7 @@ function getCookie(cname) {
     return "";
 }
 
-// DOM operations
+// note: DOM operations
 function selectVideo(vid) {
 	var url = 'http://' + window.location.hostname + ':8080/videos/'+ vid
   	var video = $("#curr-video");
@@ -293,9 +296,9 @@ function htmlCommentListElement(cid, author, content) {
 		  text: content
 		})
 	);
-	
+
 	ele.append('<hr style="height: 1px; border:none; color:#EDE3E1;background-color:#EDE3E1">');
-    
+
     return ele;
 }
 
@@ -322,7 +325,6 @@ function htmlVideoListElement(vid, name, ctime) {
 			text: ctime
 		})
 	);
-	
 
 	var res = $('<div/>', {
 		id: vid,
@@ -347,9 +349,9 @@ function htmlVideoListElement(vid, name, ctime) {
 	return res;
 }
 
-// Async ajax methods
+// note: Async ajax methods
 
-// User operations
+// note: User operations
 function registerUser(callback) {
 	var username = $("#username").val();
 	var pwd = $("#pwd").val();
@@ -369,9 +371,6 @@ function registerUser(callback) {
 		'method': 'POST',
 		'req_body': JSON.stringify(reqBody)
 	};
-
-
-
 
 	$.ajax({
 		url  : 'http://' + window.location.hostname + ':8080/api',
@@ -472,7 +471,7 @@ function getUserId(callback) {
 	});
 }
 
-// Video operations
+// note: Video operations
 function createVideo(vname, callback) {
 	var reqBody = {
 		'author_id': uid,
@@ -574,13 +573,12 @@ function deleteVideo(vid, callback) {
   });
 }
 
-// Comments operations
+// note: Comments operations
 function postComment(vid, content, callback) {
  var reqBody = {
   	'author_id': uid,
   	'content': content
   }
-
 
   var dat = {
     'url': 'http://' + window.location.hostname + ':8000/videos/' + vid + '/comments',
@@ -644,10 +642,3 @@ function listAllComments(vid, callback) {
     callback(data, null);
   });
 }
-
-
-
-
-
-
-
