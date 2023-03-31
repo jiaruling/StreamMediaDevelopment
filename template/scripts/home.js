@@ -81,7 +81,7 @@ $(document).ready(function() {
 	});
 
 	$("#siginbtn").on('click', function(e) {
-	
+
 		$("#siginbtn").text('Loading...')
     	e.preventDefault();
     	signinUser(function(res, err) {
@@ -112,10 +112,9 @@ $(document).ready(function() {
 	// userhome event register
 	$("#upload").on('click', function() {
   		$("#uploadvideomodal").show();
-  	
+
   	});
 
-	
 	$("#uploadform").on('submit', function(e) {
 		e.preventDefault()
 	  	var vname = $('#vname').val();
@@ -157,7 +156,6 @@ $(document).ready(function() {
 						return;
 					}
 				}
-				
 			});
 	  	});
 	});
