@@ -2,14 +2,14 @@
 
 # Build web and other services
 
-cd ~/work/src/github.com/avenssi/video_server/api
-env GOOS=linux GOARCH=amd64 go build -o ../bin/api
+cd /application/StreamMediaDevelopment/api
+env GOOS=linux GOARCH=amd64 go build -o ../bin/api main.go
 
-cd ~/work/src/github.com/avenssi/video_server/scheduler
-env GOOS=linux GOARCH=amd64 go build -o ../bin/scheduler
+cd /application/StreamMediaDevelopment/scheduler
+env GOOS=linux GOARCH=amd64 go build -o ../bin/scheduler main.go
 
-cd ~/work/src/github.com/avenssi/video_server/streamserver
-env GOOS=linux GOARCH=amd64 go build -o ../bin/streamserver
+cd /application/StreamMediaDevelopment/streamserver
+env GOOS=linux GOARCH=amd64 go build -o ../bin/streamserver main.go
 
-cd ~/work/src/github.com/avenssi/video_server/web
-env GOOS=linux GOARCH=amd64 go build -o ../bin/web
+cd /application/StreamMediaDevelopment/web
+env GOOS=linux GOARCH=amd64 go build -o ../bin/web main.go
