@@ -1,12 +1,18 @@
 package handlers
 
 import (
+	"io"
 	"net/http"
 
 	"github.com/jiaruling/StreamMediaDevelopment/scheduler/dbops"
 	"github.com/jiaruling/StreamMediaDevelopment/scheduler/response"
 	"github.com/julienschmidt/httprouter"
 )
+
+func HealthCheck(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	w.WriteHeader(http.StatusOK)
+	io.WriteString(w, "healthcheck")
+}
 
 func VidDelRecHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	vid := p.ByName("vid-id")

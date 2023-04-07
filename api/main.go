@@ -26,6 +26,7 @@ func (m middlewareHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func RegisterHandlers() *httprouter.Router {
 	router := httprouter.New()
+	router.GET("/", handlers.HealthCheck)
 	router.POST("/user", handlers.CreateUser)                             // 创建用户
 	router.POST("/user/:username", handlers.Login)                        // 用户登录
 	router.GET("/user/:username", handlers.GetUserInfo)                   // 获取用户信息

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -13,6 +14,11 @@ import (
 	"github.com/jiaruling/StreamMediaDevelopment/api/session"
 	"github.com/julienschmidt/httprouter"
 )
+
+func HealthCheck(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	w.WriteHeader(http.StatusOK)
+	io.WriteString(w, "healthcheck")
+}
 
 func CreateUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	res, _ := ioutil.ReadAll(r.Body)

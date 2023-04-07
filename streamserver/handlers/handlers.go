@@ -13,6 +13,11 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+func HealthCheck(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	w.WriteHeader(http.StatusOK)
+	io.WriteString(w, "healthcheck")
+}
+
 func StreamHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	vid := p.ByName("vid-id")
 	vl := defs.VIDEO_DIR + "/" + vid
