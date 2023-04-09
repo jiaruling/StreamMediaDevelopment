@@ -1,6 +1,4 @@
-#! /bin/bash
-
-# Build web and other services
+#!/bin/bash
 
 cd /application/StreamMediaDevelopment/api
 env GOOS=linux GOARCH=amd64 go build -o ../bin/api main.go
