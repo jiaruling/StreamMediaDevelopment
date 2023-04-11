@@ -350,10 +350,10 @@ function htmlVideoListElement(vid, name, ctime) {
 // note: Async ajax methods
 
 // note: User operations
+// DONE: 完成
 function registerUser(callback) {
 	var username = $("#username").val();
 	var pwd = $("#pwd").val();
-	var apiUrl = window.location.hostname + ':8080/api';
 
 	if (username == '' || pwd == '') {
 		callback(null, err);
@@ -365,13 +365,13 @@ function registerUser(callback) {
 	}
 
 	var dat = {
-		'url': 'http://'+ window.location.hostname + ':8000/user',
+		'url': 'http://127.0.0.1:8001/user',
 		'method': 'POST',
 		'req_body': JSON.stringify(reqBody)
 	};
 
 	$.ajax({
-		url  : 'http://' + window.location.hostname + ':8080/api',
+		url  : '/api',
 		type : 'post',
 		data : JSON.stringify(dat),
 		statusCode: {
@@ -396,6 +396,7 @@ function registerUser(callback) {
 	});
 }
 
+// DONE: 完成
 function signinUser(callback) {
 	var username = $("#susername").val();
 	var pwd = $("#spwd").val();
@@ -439,6 +440,7 @@ function signinUser(callback) {
 	});
 }
 
+// done: 完成
 function getUserId(callback) {
 	if (uname === "") {
 		return
@@ -507,15 +509,16 @@ function createVideo(vname, callback) {
 	});
 }
 
+// done: 完成
 function listAllVideos(callback) {
   var dat = {
-    'url': 'http://' + window.location.hostname + ':8000/user/' + uname + '/videos',
+    'url': 'http://127.0.0.1:8001/user/' + uname + '/videos',
     'method': 'GET',
     'req_body': ''
   };
 
   $.ajax({
-    url  : 'http://' + window.location.hostname + ':8080/api',
+    url  : '/api',
     type : 'post',
     data : JSON.stringify(dat),
     headers: {'X-Session-Id': session},
