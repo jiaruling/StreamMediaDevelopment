@@ -98,14 +98,14 @@ func ApiHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 // done: proxy转发
 func ProxyVideoHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	u, _ := url.Parse("http://" + config.GetLbAddr() + ":9000/")
+	u, _ := url.Parse("http://" + config.GetLbAddr() + ":8003/")
 	proxy := httputil.NewSingleHostReverseProxy(u)
 	proxy.ServeHTTP(w, r)
 }
 
 // done: proxy转发
 func ProxyUploadHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	u, _ := url.Parse("http://" + config.GetLbAddr() + ":9000/")
+	u, _ := url.Parse("http://" + config.GetLbAddr() + ":8003/")
 	proxy := httputil.NewSingleHostReverseProxy(u)
 	proxy.ServeHTTP(w, r)
 }

@@ -399,8 +399,6 @@ function registerUser(callback) {
 function signinUser(callback) {
 	var username = $("#susername").val();
 	var pwd = $("#spwd").val();
-	var apiUrl = window.location.hostname + ':8080/api';
-
 	if (username == '' || pwd == '') {
 		callback(null, err);
 	}
@@ -411,13 +409,12 @@ function signinUser(callback) {
 	}
 
 	var dat = {
-		'url': 'http://'+ window.location.hostname + ':8000/user/' + username,
+		'url': 'http://127.0.0.1:8001/user/' + username,
 		'method': 'POST',
 		'req_body': JSON.stringify(reqBody)
 	};
-
 	$.ajax({
-		url  : 'http://' + window.location.hostname + ':8080/api',
+		url  : "/api",
 		type : 'post',
 		data : JSON.stringify(dat),
 		statusCode: {
@@ -443,13 +440,16 @@ function signinUser(callback) {
 }
 
 function getUserId(callback) {
+	if (uname === "") {
+		return
+	}
 	var dat = {
-		'url': 'http://' + window.location.hostname + ':8000/user/' + uname,
+		'url': 'http://127.0.0.1:8001/user/' + uname,
 		'method': 'GET'
 	};
 
 	$.ajax({
-		url: 'http://' + window.location.hostname + ':8080/api',
+		url: '/api',
 		type: 'post',
 		data: JSON.stringify(dat),
 		headers: {'X-Session-Id': session},

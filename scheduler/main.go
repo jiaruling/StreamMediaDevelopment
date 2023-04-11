@@ -19,5 +19,5 @@ func RegisterHandlers() *httprouter.Router {
 func main() {
 	taskrunner.Start()
 	router := RegisterHandlers()
-	log.Fatal(http.ListenAndServe(":10000", router))
+	log.Fatal(http.ListenAndServe(":8002", router))
 }

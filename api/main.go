@@ -42,5 +42,5 @@ func main() {
 	session.LoadSessionFromDB()
 	router := RegisterHandlers()
 	mh := NewMiddlewareHandler(router)
-	log.Fatal(http.ListenAndServe(":8000", mh))
+	log.Fatal(http.ListenAndServe(":8001", mh))
 }
