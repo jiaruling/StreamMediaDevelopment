@@ -232,7 +232,7 @@ a {
 <div class="topnav">
   <a class="active" href="#home">Home</a>
   <a href="#news">{{.Name}}</a>
-  <a href="#about">About</a>
+  <!-- <a href="#about">About</a> -->
   <a href="#" id="upload" data-rel="popup">Upload</a>
   <a href="" id="logout" href="/">Logout</a>
 </div>
@@ -273,7 +273,7 @@ a {
       <h2>Modal Header</h2>
     </div>
     <div class="modal-body">
-      <form id="uploadform" action="http://127.0.0.1:9000/upload/avenssi" method="post" enctype="multipart/form-data" class="uploadForm">
+      <form id="uploadform" action="http://127.0.0.1:8000/upload/avenssi" method="post" enctype="multipart/form-data" class="uploadForm">
         <input class="uploadForm__input" type="file" name="file" id="inputFile" accept="video/*">
         <input type="text" id="vname" name="video name">
         <input type="submit" id="upload-submit" name="submit" value="Submit">

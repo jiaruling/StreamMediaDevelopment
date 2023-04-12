@@ -12,7 +12,7 @@ import (
 func RegisterHandlers() *httprouter.Router {
 	router := httprouter.New()
 	router.GET("/", handlers.HealthCheck)
-	router.DELETE("/video-delete-record/:vid-id", handlers.VidDelRecHandler) // 创建用户
+	router.GET("/video-delete-record/:vid-id", handlers.VidDelRecHandler) // 创建用户
 	return router
 }
 

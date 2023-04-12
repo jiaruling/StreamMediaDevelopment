@@ -12,13 +12,13 @@ import (
 func AddNewVideos(aid int, name string) (*defs.VideoInfo, error) {
 	u1 := uuid.NewV4().String()
 	ctime := time.Now().Format("2006-01-02T15:04:05")
-	stmtIns, err := dbConn.Prepare(`INSERT INTO video(id, user_id, name, display_time) VALUES (?, ?, ?, ?)`)
+	stmtIns, err := dbConn.Prepare(`INSERT INTO video(id, user_id, name, display_time, create_time) VALUES (?, ?, ?, ?, ?)`)
 	if err != nil {
 		log.Printf("AddVideos %s", err.Error())
 		return nil, err
 	}
 	defer stmtIns.Close()
-	_, err = stmtIns.Exec(u1, aid, name, ctime)
+	_, err = stmtIns.Exec(u1, aid, name, ctime, ctime)
 	if err != nil {
 		return nil, err
 	}

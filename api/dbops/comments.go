@@ -2,6 +2,7 @@ package dbops
 
 import (
 	"log"
+	"time"
 
 	"github.com/jiaruling/StreamMediaDevelopment/api/defs"
 	uuid "github.com/satori/go.uuid"
@@ -9,13 +10,14 @@ import (
 
 func AddNewComments(vid string, aid int, content string) error {
 	u1 := uuid.NewV4().String()
-	stmtIns, err := dbConn.Prepare(`INSERT INTO comments(id, video_id, user_id, content) VALUES (?, ?, ?, ?)`)
+	ctime := time.Now().Format("2006-01-02T15:04:05")
+	stmtIns, err := dbConn.Prepare(`INSERT INTO comments(id, video_id, user_id, content, time) VALUES (?, ?, ?, ?, ?)`)
 	if err != nil {
 		log.Printf("AddComments %s", err.Error())
 		return err
 	}
 	defer stmtIns.Close()
-	_, err = stmtIns.Exec(u1, vid, aid, content)
+	_, err = stmtIns.Exec(u1, vid, aid, content, ctime)
 	if err != nil {
 		return err
 	}
@@ -46,4 +48,18 @@ func ListComments(vid string, from, to int) ([]*defs.Comment, error) {
 		res = append(res, c)
 	}
 	return res, nil
+}
+
+func DeleteComments(vid string) error {
+	stmtIns, err := dbConn.Prepare(`delete from comments where video_id=?;`)
+	if err != nil {
+		log.Printf("AddComments %s", err.Error())
+		return err
+	}
+	defer stmtIns.Close()
+	_, err = stmtIns.Exec(vid)
+	if err != nil {
+		return err
+	}
+	return nil
 }

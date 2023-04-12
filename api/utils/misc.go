@@ -6,7 +6,7 @@ import (
 )
 
 func SendDeleteVideoRequest(id string) {
-	addr := "127.0.0.1" + ":9001" // todo 有待优化
+	addr := "127.0.0.1" + ":8002" // todo 有待优化
 	url := "http://" + addr + "/video-delete-record/" + id
 	_, err := http.Get(url)
 	if err != nil {

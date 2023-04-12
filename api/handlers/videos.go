@@ -71,12 +71,15 @@ func DeleteVideo(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	}
 
 	vid := p.ByName("vid-id")
+	// 删除视频
 	err := dbops.DeleteVideos(vid)
 	if err != nil {
 		log.Printf("Error in DeletVideo: %s", err)
 		response.SendErrorResponse(w, &defs.ErrorDBError)
 		return
 	}
+	// 删除评论
+	dbops.DeleteComments(vid)
 
 	go utils.SendDeleteVideoRequest(vid)
 	response.SendNormalResponse(w, "", 204)

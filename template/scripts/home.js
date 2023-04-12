@@ -131,8 +131,8 @@ $(document).ready(function() {
 			formData.append('file', $('#inputFile')[0].files[0]);
 
 			$.ajax({
-				url : 'http://' + window.location.hostname + ':8080/upload/' + obj['id'],
-				//url:'http://127.0.0.1:8080/upload/dbibi',
+				url : 'http://' + window.location.hostname + ':8000/upload/' + obj['id'],
+				//url:'http://127.0.0.1:8000/upload/dbibi',
 				type : 'POST',
 				data : formData,
 				//headers: {'Access-Control-Allow-Origin': 'http://127.0.0.1:9000'},
@@ -231,7 +231,7 @@ function getCookie(cname) {
 
 // note: DOM operations
 function selectVideo(vid) {
-	var url = 'http://' + window.location.hostname + ':8080/videos/'+ vid
+	var url = 'http://' + window.location.hostname + ':8000/videos/'+ vid
   	var video = $("#curr-video");
   	$("#curr-video:first-child").attr('src', url);
   	$("#curr-video-name").text(currentVideo['name']);
@@ -256,7 +256,7 @@ function refreshComments(vid) {
 			$("#comments-total").text(obj['comments'].length + ' Comments');
 		}
 		obj['comments'].forEach(function(item, index) {
-			var ele = htmlCommentListElement(item['id'], item['author'], item['content']);
+			var ele = htmlCommentListElement(item['id'], item['user'], item['content']);
 			$("#comments-history").append(ele);
 		});
 
@@ -474,18 +474,18 @@ function getUserId(callback) {
 // note: Video operations
 function createVideo(vname, callback) {
 	var reqBody = {
-		'author_id': uid,
+		'user_id': uid,
 		'name': vname
 	};
 
 	var dat = {
-		'url': 'http://' + window.location.hostname + ':8000/user/' + uname + '/videos',
+		'url': 'http://127.0.0.1:8001/user/' + uname + '/videos',
 		'method': 'POST',
 		'req_body': JSON.stringify(reqBody)
 	};
 
 	$.ajax({
-		url  : 'http://' + window.location.hostname + ':8080/api',
+		url  : '/api',
 		type : 'post',
 		data : JSON.stringify(dat),
 		headers: {'X-Session-Id': session},
@@ -544,13 +544,13 @@ function listAllVideos(callback) {
 
 function deleteVideo(vid, callback) {
   var dat = {
-    'url': 'http://' + window.location.hostname + ':8000/user/' + uname + '/videos/' + vid,
+    'url': 'http://127.0.0.1:8001/user/' + uname + '/videos/' + vid,
     'method': 'DELETE',
     'req_body': ''
   };
 
   $.ajax({
-    url  : 'http://' + window.location.hostname + ':8080/api',
+    url  : '/api',
     type : 'post',
     data : JSON.stringify(dat),
     headers: {'X-Session-Id': session},
@@ -577,18 +577,18 @@ function deleteVideo(vid, callback) {
 // note: Comments operations
 function postComment(vid, content, callback) {
  var reqBody = {
-  	'author_id': uid,
+  	'user_id': uid,
   	'content': content
   }
 
   var dat = {
-    'url': 'http://' + window.location.hostname + ':8000/videos/' + vid + '/comments',
+    'url': 'http://127.0.0.1:8001/videos/' + vid + '/comments',
     'method': 'POST',
     'req_body': JSON.stringify(reqBody)
   };
 
   $.ajax({
-    url  : 'http://' + window.location.hostname + ':8080/api',
+    url  : '/api',
     type : 'post',
     data : JSON.stringify(dat),
     headers: {'X-Session-Id': session},
@@ -614,13 +614,13 @@ function postComment(vid, content, callback) {
 
 function listAllComments(vid, callback) {
   var dat = {
-    'url': 'http://' + window.location.hostname + ':8000/videos/' + vid + '/comments',
+    'url': 'http://127.0.0.1:8001/videos/' + vid + '/comments',
     'method': 'GET',
     'req_body': ''
   };
 
   $.ajax({
-    url  : 'http://' + window.location.hostname + ':8080/api',
+    url  : '/api',
     type : 'post',
     data : JSON.stringify(dat),
     headers: {'X-Session-Id': session},
