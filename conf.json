@@ -1,4 +1,6 @@
 {
     "lb_addr": "127.0.0.1",
-    "oss_addr": "127.0.0.1"
+    "oss_addr": "",
+    "access_key_id": "",
+    "access_key_secret": ""
 }

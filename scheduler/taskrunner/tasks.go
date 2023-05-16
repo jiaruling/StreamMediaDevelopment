@@ -3,18 +3,25 @@ package taskrunner
 import (
 	"errors"
 	"log"
-	"os"
 	"sync"
 
 	"github.com/jiaruling/StreamMediaDevelopment/scheduler/dbops"
+	"github.com/jiaruling/StreamMediaDevelopment/scheduler/oss"
 )
 
 var err error
 
 func deletVideo(vid string) error {
-	err := os.Remove(VIDEO_DIR + "/" + vid)
-	if err != nil && !os.IsNotExist(err) {
-		return err
+	// err := os.Remove(VIDEO_DIR + "/" + vid)
+	// if err != nil && !os.IsNotExist(err) {
+	// 	return err
+	// }
+	ossfn := "test1/" + vid
+	bn := "stream-media-videos"
+	ok := oss.DeleteObject(ossfn, bn)
+	if !ok {
+		log.Printf("Deleting video error, oss operation failed")
+		return errors.New("Deleting video error")
 	}
 	return nil
 }

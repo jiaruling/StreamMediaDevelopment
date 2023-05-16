@@ -31,8 +31,10 @@ func (m middlewareHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func RegisterHandlers() *httprouter.Router {
 	router := httprouter.New()
 	router.GET("/", handlers.HealthCheck)
-	router.GET("/videos/:vid-id", handlers.StreamHandler)
-	router.POST("/upload/:vid-id", handlers.UploadHandler)
+	// router.GET("/videos/:vid-id", handlers.StreamHandler)
+	router.GET("/videos/:vid-id", handlers.StreamOssHandler)
+	// router.POST("/upload/:vid-id", handlers.UploadHandler)
+	router.POST("/upload/:vid-id", handlers.UploadOssHandler)
 	return router
 }
 
